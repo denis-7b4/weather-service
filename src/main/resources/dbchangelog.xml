@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+    <changeSet id="2022_09_12" author="denis">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="TEMPERATURE"/>
+            </not>
+        </preConditions>
+        <createTable tableName="TEMPERATURE">
+            <column name="ID" type="BIGINT" autoIncrement="true" incrementBy="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="CITY" type="VARCHAR(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="COUNTRY" type="VARCHAR(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TEMPERATURE" type="DOUBLE">
+                <constraints nullable="true"/>
+            </column>
+            <column name="CREATED_DATE" type="DATE" defaultValueComputed="CURRENT_DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_TIME" type="TIME" defaultValueComputed="CURRENT_TIME">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="TEMPERATURE" indexName="TEMPERATURE_X">
+            <column name="CITY"/>
+            <column name="CREATED_DATE"/>
+        </createIndex>
+        <rollback>
+            <dropTable tableName="TEMPERATURE"/>
+            <dropIndex tableName="TEMPERATURE" indexName="TEMPERATURE_X"/>
+        </rollback>
+    </changeSet>
+    <changeSet id="2022_09_14" author="denis">
+        <preConditions>
+            <not>
+                <tableExists tableName="CITIES"/>
+            </not>
+        </preConditions>
+        <createTable tableName="CITIES">
+            <column name="id" type="BIGINT" autoIncrement="true" incrementBy="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="CITY" type="VARCHAR(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="COUNTRY" type="VARCHAR(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LATITUDE" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LONGITUDE" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DISPLAY_NAME" type="VARCHAR(1024)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <createIndex tableName="CITIES" indexName="CITIES_X">
+            <column name="CITY"/>
+            <column name="COUNTRY"/>
+        </createIndex>
+        <rollback>
+            <dropTable tableName="CITIES"/>
+            <dropIndex tableName="CITIES" indexName="CITIES_X"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
