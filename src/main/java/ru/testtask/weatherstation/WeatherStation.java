@@ -105,6 +105,7 @@ public class WeatherStation {
                 temperatureRaw.setTemperature(averageTemperature);
                 weatherRepository.save(temperatureRaw);
             }
+            log.info("Weather data requested for all cities");
             try {
                 Thread.sleep(requestInterval*60*1000);
             } catch (InterruptedException e) {
