@@ -6,10 +6,11 @@ import java.io.*;
 import java.util.*;
 
 @Slf4j
-public final class PropertiesReader {
+public final class CitiesListReader {
     private final List<String[]> cities = new ArrayList<>();
+    private final NavigableMap<String, String> citiesSorted = new TreeMap<>();
 
-    public List<String[]> getProperties() throws FileNotFoundException {
+    public List<String[]> getCitiesList() throws FileNotFoundException {
         String rootPath = Objects.requireNonNull(Thread.currentThread()
                 .getContextClassLoader().getResource("")).getPath();
         String citiesListPath = rootPath + "weather.cities";
@@ -21,8 +22,9 @@ public final class PropertiesReader {
             log.error("File with list of cities not found");
             throw new FileNotFoundException("Cities not found");
         }
-        for (Map.Entry<Object, Object> item : properties.entrySet()) {
-            String[] city = item.getValue().toString().split("\\.", 2);
+        properties.forEach((key, value) -> citiesSorted.put(key.toString(), value.toString()));
+        for (Map.Entry<String, String> item : citiesSorted.entrySet()) {
+            String[] city = item.getValue().split("\\.", 2);
             cities.add(city);
         }
         return cities;

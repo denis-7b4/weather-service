@@ -28,8 +28,8 @@ public final class CityLocator {
         log.info("City locator started");
 
         WebClient client = WebClient.create("https://nominatim.openstreetmap.org/");
-        PropertiesReader propertiesReader = new PropertiesReader();
-        List<String[]> cities = propertiesReader.getProperties();
+        CitiesListReader citiesListReader = new CitiesListReader();
+        List<String[]> cities = citiesListReader.getCitiesList();
         for (String[] city : cities) {
             String cityName = city[0];
             String countryName = city[1];
