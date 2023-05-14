@@ -21,8 +21,11 @@ import ru.testtask.weatherstation.requestors.ClientWeatherbit;
 @Component
 public class WeatherStation {
     private final Long requestInterval;
+    private final String urlTomorrow;
     private final String apiKeyTomorrow;
+    private final String urlWeatherbit;
     private final String apiKeyWeatherbit;
+    private final String urlVisualcrossing;
     private final String apiKeyVisualcrossing;
     String weatherDataNotFound = "Weather data for \"{}\" city in the \"{}\" country not found";
     private final List<Double> temperaturesCollected = new ArrayList<>(3);
@@ -35,13 +38,19 @@ public class WeatherStation {
     public WeatherStation(
             @Value("${weather.interval:60}") Long requestInterval
           , @Value("${weather.apikey.tomorrow}") String apiKeyTomorrow
+          , @Value("${weather.url.tomorrow}") String urlTomorrow
           , @Value("${weather.apikey.weatherbit}") String apiKeyWeatherbit
-          , @Value("${weather.apikey.visualcrossing}") String apiKeyVisualcrossing,
+          , @Value("${weather.url.weatherbit}") String urlWeatherbit
+          , @Value("${weather.apikey.visualcrossing}") String apiKeyVisualcrossing
+          , @Value("${weather.url.visualcrossing}") String urlVisualcrossing,
             CityLocator cityLocator, WeatherRepository weatherRepository) {
         this.requestInterval = requestInterval;
         this.apiKeyTomorrow = apiKeyTomorrow;
+        this.urlTomorrow = urlTomorrow;
         this.apiKeyWeatherbit = apiKeyWeatherbit;
+        this.urlWeatherbit = urlWeatherbit;
         this.apiKeyVisualcrossing = apiKeyVisualcrossing;
+        this.urlVisualcrossing = urlVisualcrossing;
         this.cityLocator = cityLocator;
         this.weatherRepository = weatherRepository;
     }
@@ -60,10 +69,10 @@ public class WeatherStation {
         ClientTomorrow clientTomorrow = new ClientTomorrow(apiKeyTomorrow);
         ClientWeatherbit clientWeatherbit = new ClientWeatherbit(apiKeyWeatherbit);
         ClientVisualcrossing clientVisualcrossing = new ClientVisualcrossing(apiKeyVisualcrossing);
-        WebClient tomorrowClient = WebClient.create("https://api.tomorrow.io/v4/timelines");
-        WebClient weatherbitClient = WebClient.create("https://api.weatherbit.io/v2.0/current");
+        WebClient tomorrowClient = WebClient.create(urlTomorrow);
+        WebClient weatherbitClient = WebClient.create(urlWeatherbit);
         WebClient visualcrossingClient = WebClient
-                .create("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline");
+                .create(urlVisualcrossing);
 
         while (!Thread.interrupted()) {
             log.info("Requesting weather data...");

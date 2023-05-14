@@ -19,22 +19,25 @@ public final class CityLocator {
     @Autowired
     private final CityRepository cityRepository;
     private final CitiesListReader citiesListReader;
+    private final String urlCityLocator;
     private final List<Cities> requestCitiesList = new ArrayList<>();
 
     @Autowired
     public CityLocator(CityRepository cityRepository) {
         this.cityRepository = cityRepository;
+        this.urlCityLocator = "https://nominatim.openstreetmap.org/";
         this.citiesListReader = new CitiesListReader();
     }
-    public CityLocator(CityRepository cityRepository, CitiesListReader citiesListReader) {
+    public CityLocator(CityRepository cityRepository, String urlCityLocator, CitiesListReader citiesListReader) {
         this.cityRepository = cityRepository;
+        this.urlCityLocator = urlCityLocator;
         this.citiesListReader = citiesListReader;
     }
 
     public List<Cities> getCities() throws FileNotFoundException {
         log.info("City locator started");
 
-        WebClient client = WebClient.create("https://nominatim.openstreetmap.org/");
+        WebClient client = WebClient.create(urlCityLocator);
         List<String[]> cities = citiesListReader.getCitiesList();
         for (String[] city : cities) {
             String cityName = city[0];
