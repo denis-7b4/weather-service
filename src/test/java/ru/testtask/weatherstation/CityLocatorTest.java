@@ -24,19 +24,20 @@ import static org.mockserver.model.HttpRequest.request;
 class CityLocatorTest {
     private static ClientAndServer mockServer;
     private final String urlCityLocator = "http://localhost:1080";
-    Cities cityRawFromTable1 = new Cities("Chelyabinsk", "Russia", 55.1598408, 61.4025547
-            ,"Chelyabinsk, Chelyabinsk Oblast, Ural Federal District, Russia");
-    private static List<String[]> weatherCitiesFileList = new ArrayList<>();
+    private static final Cities cityRowFromTable = new Cities("Chelyabinsk", "Russia"
+            , 55.1598408, 61.4025547,"Chelyabinsk, Chelyabinsk Oblast" +
+            ", Ural Federal District, Russia");
+    private static final List<String[]> weatherCitiesFileList = new ArrayList<>();
     private List<Cities> requestCitiesList;
-
 
     @Test
     void getCities() throws FileNotFoundException {
         CitiesListReader citiesListReaderMock = Mockito.mock(CitiesListReader.class);
         CityRepository cityRepositoryMock = Mockito.mock(CityRepository.class);
         when(citiesListReaderMock.getCitiesList()).thenReturn(weatherCitiesFileList);
-        when(cityRepositoryMock.findByCityAndCountry("Chelyabinsk", "Russia")).thenReturn(cityRawFromTable1);
+        when(cityRepositoryMock.findByCityAndCountry("Chelyabinsk", "Russia")).thenReturn(cityRowFromTable);
         when(cityRepositoryMock.save(Mockito.any(Cities.class))).thenReturn(null);
+        ConfigurationProperties.logLevel("WARN");
         mockServer.when(
                         request()
                                 .withMethod("GET")
@@ -53,7 +54,6 @@ class CityLocatorTest {
                                         "\"display_name\":\"Moscow, Central Federal District, Russia\"," +
                                         "\"class\":\"place\",\"type\":\"city\"}]")
                 );
-        ConfigurationProperties.logLevel("WARN");
         try {
             CityLocator cityLocator = new CityLocator(cityRepositoryMock, urlCityLocator, citiesListReaderMock);
             requestCitiesList = cityLocator.getCities();

@@ -42,9 +42,9 @@ public final class CityLocator {
         for (String[] city : cities) {
             String cityName = city[0];
             String countryName = city[1];
-            Cities cityRawFromTable = cityRepository.findByCityAndCountry(cityName, countryName);
-            if (cityRawFromTable != null) {
-                requestCitiesList.add(cityRawFromTable);
+            Cities cityRowFromTable = cityRepository.findByCityAndCountry(cityName, countryName);
+            if (cityRowFromTable != null) {
+                requestCitiesList.add(cityRowFromTable);
             } else {
                 String searchString = new StringBuilder()
                         .append("/search?limit=1&format=json&accept-language=en-US")
