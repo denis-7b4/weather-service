@@ -108,11 +108,11 @@ public class WeatherStation {
                 double averageTemperature = sumTemperature / temperaturesCollected.size();
                 averageTemperature = Math.round(averageTemperature*10)/10D;
                 temperaturesCollected.clear();
-                Temperatures temperatureRaw = new Temperatures();
-                temperatureRaw.setCity(curCity.getCity());
-                temperatureRaw.setCountry(curCity.getCountry());
-                temperatureRaw.setTemperature(averageTemperature);
-                weatherRepository.save(temperatureRaw);
+                Temperatures temperatureRow = new Temperatures();
+                temperatureRow.setCity(curCity.getCity());
+                temperatureRow.setCountry(curCity.getCountry());
+                temperatureRow.setTemperature(averageTemperature);
+                weatherRepository.save(temperatureRow);
             }
             log.info("Weather data requested for all cities");
             try {

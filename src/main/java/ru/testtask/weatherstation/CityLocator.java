@@ -71,14 +71,14 @@ public final class CityLocator {
                         log.warn("City: \"{}\" not found in Country: \"{}\".", cityName, countryName);
                         continue;
                     }
-                    Cities cityRawFromJson = new Cities();
-                    cityRawFromJson.setCity(cityName);
-                    cityRawFromJson.setCountry(countryName);
-                    cityRawFromJson.setLat(responseObject.getDouble("lat"));
-                    cityRawFromJson.setLon(responseObject.getDouble("lon"));
-                    cityRawFromJson.setDisplayName(responseObject.getString("display_name"));
-                    requestCitiesList.add(cityRawFromJson);
-                    cityRepository.save(cityRawFromJson);
+                    Cities cityRowFromJson = new Cities();
+                    cityRowFromJson.setCity(cityName);
+                    cityRowFromJson.setCountry(countryName);
+                    cityRowFromJson.setLat(responseObject.getDouble("lat"));
+                    cityRowFromJson.setLon(responseObject.getDouble("lon"));
+                    cityRowFromJson.setDisplayName(responseObject.getString("display_name"));
+                    requestCitiesList.add(cityRowFromJson);
+                    cityRepository.save(cityRowFromJson);
                 }
             }
         }
