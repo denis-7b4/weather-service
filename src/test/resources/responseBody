@@ -1,4 +1,0 @@
-/search?limit=1&format=json&accept-language=en-US&city=Chelyabinsk&country=Russia
-
-[{"place_id":349235171,"licence":"Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright","osm_type":"relation","osm_id":4442556,"boundingbox":["54.9909963","55.3209835","61.1435957","61.5920596"],"lat":"55.1598408","lon":"61.4025547","display_name":"Chelyabinsk, Sovetskiy rayon, Chelyabinsk, Chelyabinsk Oblast, Ural Federal District, Russia","class":"place","type":"city","importance":0.7759109920059912,"icon":"https://nominatim.openstreetmap.org/ui/mapicons/poi_place_city.p.20.png"}]
-
