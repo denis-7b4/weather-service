@@ -34,6 +34,7 @@ public final class WeatherController {
         return "1.0.0";
     }
 
+    /* http://localhost:8081/weather?city=Chelyabinsk&country=Russia&date=YYYY-MM-DD */
     @Contract("_, _, _ -> new")
     @GetMapping("/weather")
     public @NotNull ResponseEntity<List<Temperatures>> getTemperaturesByDate(
@@ -64,9 +65,9 @@ public final class WeatherController {
         if (temperaturesList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else if (!dateProvided) {
-             currentTemperature
-                     .add(temperaturesList.get(temperaturesList.size() - 1));
-             return new ResponseEntity<>(currentTemperature, HttpStatus.OK);
+            currentTemperature
+                    .add(temperaturesList.get(temperaturesList.size() - 1));
+            return new ResponseEntity<>(currentTemperature, HttpStatus.OK);
         }
         return new ResponseEntity<>(temperaturesList, HttpStatus.OK);
     }
